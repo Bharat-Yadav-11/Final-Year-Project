@@ -26,12 +26,13 @@ export async function hasAccessToOrg(
   orgId: string 
 ) {
   const identity = await ctx.auth.getUserIdentity();
+  console.log(identity);
 
   if (!identity) {
     return null;
   }
 
-  let user = await ctx.db
+  const user = await ctx.db
     .query("users")
     .withIndex("by_tokenIdentifier", (q) =>
       q.eq("tokenIdentifier", identity.tokenIdentifier)
@@ -45,7 +46,6 @@ export async function hasAccessToOrg(
   const hasAccess =
     user.orgIds.some((item) => item.orgId === orgId) ||
     user.tokenIdentifier.includes(orgId);
-    console.log(hasAccess);
 
   if (!hasAccess) {
     return null;
@@ -61,8 +61,11 @@ export const createFile = mutation({
     orgId: v.string(),
     type: fileTypes,
   },
+  
   async handler(ctx, args) {
     const hasAccess = await hasAccessToOrg(ctx, args.orgId);
+    console.log('hasAccess', hasAccess);
+    console.log('file.ts -> createFile -> handler', args.orgId);
 
     if (!hasAccess) {
       throw new ConvexError("you do not have access to this org");
@@ -156,26 +159,6 @@ export const deleteAllFiles = internalMutation({
     );
   },
 });
-
-async function hasAccessToFile(
-  ctx: QueryCtx | MutationCtx,
-  fileId: Id<"files">
-) {
-  const file = await ctx.db.get(fileId);
-
-  if (!file) {
-    return null;
-  }
-
-  const hasAccess = await hasAccessToOrg(ctx, file.orgId);
-
-  if (!hasAccess) {
-    return null;
-  }
-
-  return { user: hasAccess.user, file };
-}
-
 
 function assertCanDeleteFile(user: Doc<"users">, file: Doc<"files">) {
   const canDelete =
@@ -272,3 +255,21 @@ export const getAllFavorites = query({
   },
 });
 
+async function hasAccessToFile(
+  ctx: QueryCtx | MutationCtx,
+  fileId: Id<"files">
+) {
+  const file = await ctx.db.get(fileId);
+
+  if (!file) {
+    return null;
+  }
+
+  const hasAccess = await hasAccessToOrg(ctx, file.orgId);
+
+  if (!hasAccess) {
+    return null;
+  }
+
+  return { user: hasAccess.user, file };
+}
