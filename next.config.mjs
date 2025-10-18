@@ -5,6 +5,12 @@ const nextConfig = {
       {
         hostname: "https://focused-dachshund-484.convex.cloud",
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
