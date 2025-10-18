@@ -6,7 +6,6 @@ export function Footer() {
   return (
     <footer className="bg-gray-900 text-white" aria-labelledby="footer-heading">
       <div className="container mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        {/* The main container is now a flexbox on larger screens */}
         <div className="xl:flex xl:items-start xl:justify-between xl:gap-8">
           {/* Logo and Branding Section */}
           <div className="space-y-4">
@@ -26,13 +25,11 @@ export function Footer() {
           </div>
           
           {/* Links Section */}
-          {/* This container ensures the links inside stay properly aligned */}
           <div className="mt-12 grid grid-cols-2 gap-8 md:max-w-md xl:mt-0">
             <div>
               <h3 className="text-sm font-semibold leading-6">Company</h3>
               <ul role="list" className="mt-6 space-y-4">
                 <li>
-                  {/* Added smooth transitions to the links */}
                   <Link href="/about" className="text-sm leading-6 text-gray-300 transition-colors duration-300 hover:text-white">
                     About
                   </Link>
