@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck, BrainCircuit, Users, Quote } from "lucide-react";
-// CHANGE 1: Import the 'Variants' type from framer-motion
 import { motion, Variants } from "framer-motion";
 
 const testimonials = [
