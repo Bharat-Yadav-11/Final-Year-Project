@@ -25,10 +25,10 @@ export function Header() {
 
   return (
     <>
-      {/* Main Header */}
+
       <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-lg">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          {/* Logo */}
+
           <Link href="/" className="flex items-center gap-2 text-xl font-semibold text-black" onClick={() => setIsMenuOpen(false)}>
             <Image src="/logo.png" width="40" height="40" alt="SmartDrive logo" />
             <span>SmartDrive</span>
@@ -37,7 +37,6 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex md:items-center md:gap-4">
             <SignedIn>
-              {/* THIS IS THE CHANGED LINE */}
               <Button variant={"secondary"}>
                 <Link href="/dashboard/files">Your Files</Link>
               </Button>
@@ -89,12 +88,16 @@ export function Header() {
               </SignedIn>
               <div className="w-full border-t pt-4 flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-600">Switch Organization</span>
+                  <span className="text-sm font-medium text-gray-600">Switch Organization</span>
+                  <SignedIn>
                     <OrganizationSwitcher />
+                  </SignedIn>
                 </div>
-                 <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-600">Manage Account</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-600">Manage Account</span>
+                  <SignedIn>
                     <UserButton />
+                  </SignedIn>
                 </div>
                 <SignedOut>
                   <SignInButton mode="modal">
