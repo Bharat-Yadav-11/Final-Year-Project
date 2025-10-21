@@ -1,4 +1,4 @@
-# 🚗 SmartDrive – AI-Integrated Personal Cloud Storage System
+# SmartDrive – AI-Integrated Personal Cloud Storage System
 
 **SmartDrive** is a secure, scalable, and intelligent cloud platform that lets users **upload, organize, and access** their files from anywhere.  
 It integrates **Artificial Intelligence** to provide **automatic file categorization**, **semantic search**, and **smart recommendations**, offering an effortless and efficient file-management experience.
@@ -60,7 +60,7 @@ SmartDrive’s architecture is **modular**, **serverless**, and optimized for sc
 
 ---
 
-## 🧱 Tech Stack
+##  Tech Stack
 
 | Layer | Technology | Description |
 |--------|-------------|-------------|
@@ -74,7 +74,7 @@ SmartDrive’s architecture is **modular**, **serverless**, and optimized for sc
 
 ---
 
-## 🔄 Detailed Workflow (Improved Methodology)
+##  Detailed Workflow (Improved Methodology)
 
 ### 1️⃣ User Authentication
 - User logs in securely through **Clerk** (supports social login & MFA).
@@ -104,7 +104,7 @@ SmartDrive’s architecture is **modular**, **serverless**, and optimized for sc
 
 ---
 
-## 🧠 AI Integration
+## AI Integration
 
 | Feature | Tool / Model | Description |
 |----------|---------------|-------------|
@@ -115,7 +115,7 @@ SmartDrive’s architecture is **modular**, **serverless**, and optimized for sc
 
 ---
 
-## 🔐 Security
+##  Security
 - **Clerk Authentication** ensures safe and encrypted sign-in  
 - **MFA & OAuth** support for extra security  
 - **JWT-based Access Control (optional)**  
@@ -123,7 +123,7 @@ SmartDrive’s architecture is **modular**, **serverless**, and optimized for sc
 
 ---
 
-## ⚙️ Deployment
+##  Deployment
 - Deployed seamlessly on **Vercel**  
 - **CI/CD pipelines** for automatic build and deploy  
 - Optional **Docker** setup for containerized environments  
@@ -131,22 +131,22 @@ SmartDrive’s architecture is **modular**, **serverless**, and optimized for sc
 
 ---
 
-## 🚧 Future Enhancements
-- 🧾 **Document Summarization** using advanced LLMs  
-- 📂 **Collaborative File Sharing** and multi-user access  
-- 📜 **File Version Control** and history tracking  
-- ☁️ **Third-party Integrations** (Google Drive / Dropbox)  
-- 🗣️ **Multilingual Voice Support** for accessibility  
+##  Future Enhancements
+-  **Document Summarization** using advanced LLMs  
+-  **Collaborative File Sharing** and multi-user access  
+-  **File Version Control** and history tracking  
+-  **Third-party Integrations** (Google Drive / Dropbox)  
+-  **Multilingual Voice Support** for accessibility  
 
 ---
 
-## 🧾 License
+##  License
 This project is licensed under the **MIT License** —  
 Free for personal, academic, and open-source use.
 
 ---
 
-## 👨‍💻 Author
+##  Author
 **Mohit Sharma**
 **Bharat Bhushan**
 Final Year Project – *SmartDrive*  
