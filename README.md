@@ -8,7 +8,9 @@
   <strong>An enterprise-grade cloud storage platform that combines AI intelligence, secure file management, and organization-based collaboration.</strong>
 </p>
 
-<p align="center">
+---
+
+<div align="center">
   <a href="#overview">Overview</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#tech-stack">Tech Stack</a> •
@@ -18,7 +20,7 @@
   <a href="#deployment">Deployment</a> •
   <a href="#security">Security</a> •
   <a href="#license">License</a>
-</p>
+</div>
 
 ---
 
@@ -67,11 +69,11 @@ The architecture is designed for simplicity, security, and real-time performance
 
 ```mermaid
 graph TD
-    A[User] -- Authenticates & gets org context --> B[Clerk];
-    A -- Interacts with --> C[Frontend (Next.js + ShadCN)];
-    C -- Sends requests --> D[Convex (Backend, DB, Real-Time Logic)];
-    B -- Webhooks sync org data --> D;
-    D -- Manages --> E[File Storage];
+    A[User] -- "Authenticates & gets org context" --> B[Clerk];
+    A -- "Interacts with" --> C[Frontend (Next.js + ShadCN)];
+    C -- "Sends requests" --> D[Convex (Backend, DB, Real-Time Logic)];
+    B -- "Webhooks sync org data" --> D;
+    D -- "Manages" --> E[File Storage];
 ```
 
 - **Personal uploads** are stored with a `userId` reference.
@@ -107,7 +109,7 @@ Follow these steps to set up and run the project locally.
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/smartdrive.git
+git clone https://github.com/Bharat-Yadav-11/Final-Year-Project.git
 cd smartdrive
 ```
 
@@ -178,4 +180,3 @@ Security is a top priority for SmartDrive.
 ## License
 
 This project is licensed under the **MIT License**. You are free to use, modify, and distribute this software with proper attribution. See the `LICENSE` file for more details.
-```
