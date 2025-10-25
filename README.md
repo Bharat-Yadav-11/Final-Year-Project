@@ -10,7 +10,7 @@
 
 ---
 
-<div align="center">
+<div>
   <a href="#overview">Overview</a><br>
   <a href="#key-features">Key Features</a><br>
   <a href="#tech-stack">Tech Stack</a><br>
@@ -70,10 +70,10 @@ The architecture is designed for simplicity, security, and real-time performance
 ```mermaid
 graph TD
     A[User] -- "Authenticates & gets org context" --> B[Clerk];
-    A -- "Interacts with" --> C[Frontend (Next.js + ShadCN)];
-    C -- "Sends requests" --> D[Convex (Backend, DB, Real-Time Logic)];
+    A -- "Interacts with" --> C["Frontend (Next.js + ShadCN)"];
+    C -- "Sends requests" --> D["Convex (Backend, DB, Real-Time Logic)"];
     B -- "Webhooks sync org data" --> D;
-    D -- "Manages" --> E[File Storage];
+    D -- "Manages" --> E["File Storage"];
 ```
 
 - **Personal uploads** are stored with a `userId` reference.
