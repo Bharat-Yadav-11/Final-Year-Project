@@ -1,4 +1,4 @@
-import { Doc, Id } from "../../../../convex/_generated/dataModel";
+import { Doc } from "../../../../convex/_generated/dataModel";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,9 +7,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  FileIcon,
+  DownloadIcon, 
   MoreVertical,
-  StarHalf,
+  Star, 
   StarIcon,
   TrashIcon,
   UndoIcon,
@@ -53,20 +53,18 @@ export function FileCardActions({
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
               This action will mark the file for our deletion process. Files are
-              deleted periodically
+              deleted periodically.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={async () => {
-                await deleteFile({
-                  fileId: file._id,
-                });
+                await deleteFile({ fileId: file._id });
                 toast({
                   variant: "default",
-                  title: "File marked for deletion",
-                  description: "Your file will be deleted soon",
+                  title: "File moved to trash",
+                  description: `"${file.name}" will be deleted soon.`, 
                 });
               }}
             >
@@ -86,37 +84,31 @@ export function FileCardActions({
               if (!file.url) return;
               window.open(file.url, "_blank");
             }}
-            className="flex gap-1 items-center cursor-pointer"
+            className="flex gap-2 items-center cursor-pointer" // Changed
           >
-            <FileIcon className="w-4 h-4" /> Download
+            <DownloadIcon className="w-4 h-4" /> Download
           </DropdownMenuItem>
 
           <DropdownMenuItem
             onClick={() => {
-              toggleFavorite({
-                fileId: file._id,
-              });
+              toggleFavorite({ fileId: file._id });
             }}
-            className="flex gap-1 items-center cursor-pointer"
+            className="flex gap-2 items-center cursor-pointer" // Changed
           >
             {isFavorited ? (
-              <div className="flex gap-1 items-center">
+              <>
                 <StarIcon className="w-4 h-4" /> Unfavorite
-              </div>
+              </>
             ) : (
-              <div className="flex gap-1 items-center">
-                <StarHalf className="w-4 h-4" /> Favorite
-              </div>
+              <>
+                <Star className="w-4 h-4" /> Favorite
+              </>
             )}
           </DropdownMenuItem>
 
           <Protect
             condition={(check) => {
-              return (
-                check({
-                  role: "org:admin",
-                }) || file.userId === me?._id
-              );
+              return check({ role: "org:admin" }) || file.userId === me?._id;
             }}
             fallback={<></>}
           >
@@ -124,21 +116,24 @@ export function FileCardActions({
             <DropdownMenuItem
               onClick={() => {
                 if (file.shouldDelete) {
-                  restoreFile({
-                    fileId: file._id,
+                  restoreFile({ fileId: file._id });
+                  toast({ // Added toast for restore
+                    variant: "success",
+                    title: "File Restored",
+                    description: `"${file.name}" has been restored.`,
                   });
                 } else {
                   setIsConfirmOpen(true);
                 }
               }}
-              className="flex gap-1 items-center cursor-pointer"
+              className="flex gap-2 items-center cursor-pointer" // Changed
             >
               {file.shouldDelete ? (
-                <div className="flex gap-1 text-green-600 items-center cursor-pointer">
+                <div className="flex gap-2 text-green-600 items-center">
                   <UndoIcon className="w-4 h-4" /> Restore
                 </div>
               ) : (
-                <div className="flex gap-1 text-red-600 items-center cursor-pointer">
+                <div className="flex gap-2 text-red-600 items-center">
                   <TrashIcon className="w-4 h-4" /> Delete
                 </div>
               )}
