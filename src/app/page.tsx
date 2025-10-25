@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShieldCheck, BrainCircuit, Users, Quote } from "lucide-react";
 import { motion, Variants } from "framer-motion";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 
 const testimonials = [
   {
@@ -69,7 +70,8 @@ const testimonials = [
 ];
 
 export default function LandingPage() {
-  
+  const { userId } = useAuth();
+
   const fadeIn: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
@@ -79,7 +81,7 @@ export default function LandingPage() {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
-  
+
   const cardItem: Variants = {
     hidden: { opacity: 0, y: 50, scale: 0.9 },
     visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: "easeOut" } },
@@ -87,6 +89,7 @@ export default function LandingPage() {
 
   return (
     <div className="bg-white text-gray-800 overflow-x-hidden">
+
       {/* Section 1: Hero */}
       <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center isolate overflow-hidden px-6 lg:px-8">
         <div className="absolute inset-0 -z-10">
@@ -97,7 +100,7 @@ export default function LandingPage() {
             />
           </div>
         </div>
-        
+
         <motion.div className="mx-auto max-w-3xl text-center" initial="hidden" animate="visible" variants={cardContainer}>
           <motion.div variants={cardItem}>
             <Image src="/logo.png" width="220" height="220" alt="SmartDrive logo" className="inline-block mb-8" />
@@ -109,15 +112,29 @@ export default function LandingPage() {
             Make an account and start managing your files with the power of AI in less than a minute.
           </motion.p>
           <motion.div variants={cardItem} className="mt-10 flex items-center justify-center gap-x-6">
-            <Link href="/dashboard/files" className="rounded-md bg-indigo-600 px-5 py-3 text-base font-semibold text-white shadow-xl transition-transform duration-300 hover:bg-indigo-500 hover:scale-105 focus-visible:outline-indigo-600">
-              Get started
-            </Link>
+            {userId ? (
+              <Link
+                href="/dashboard/files"
+                className="rounded-md bg-indigo-600 px-5 py-3 text-base font-semibold text-white shadow-xl transition-transform duration-300 hover:bg-indigo-500 hover:scale-105 focus-visible:outline-indigo-600"
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <SignInButton mode="modal" afterSignInUrl="/">
+                <button
+                  className="rounded-md bg-indigo-600 px-5 py-3 text-base font-semibold text-white shadow-xl transition-transform duration-300 hover:bg-indigo-500 hover:scale-105 focus-visible:outline-indigo-600"
+                >
+                  Get started
+                </button>
+              </SignInButton>
+            )}
             <a href="#features" className="text-base font-semibold leading-6 text-gray-900 transition-transform duration-300 hover:scale-105">
               Learn more <span aria-hidden="true">→</span>
             </a>
           </motion.div>
         </motion.div>
       </section>
+
 
       {/* Section 2: Features */}
       <section id="features" className="relative isolate py-24 sm:py-32">
@@ -135,7 +152,7 @@ export default function LandingPage() {
             </p>
           </div>
         </motion.div>
-        
+
         <motion.div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-6xl px-6 lg:px-8" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={cardContainer}>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
@@ -154,7 +171,8 @@ export default function LandingPage() {
           </div>
         </motion.div>
       </section>
-      
+
+
       {/* Section 3: Testimonials - NOW A SCROLLING MARQUEE */}
       <section className="relative isolate bg-slate-50 py-24 sm:py-32">
         <div className="absolute inset-0 -z-10 overflow-hidden">
