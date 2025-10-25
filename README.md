@@ -10,17 +10,21 @@
 
 ---
 
-<div>
-  <a href="#overview">Overview</a><br>
-  <a href="#key-features">Key Features</a><br>
-  <a href="#tech-stack">Tech Stack</a><br>
-  <a href="#system-architecture">System Architecture</a><br>
-  <a href="#future-enhancements">Roadmap</a><br>
-  <a href="#getting-started">Getting Started</a><br>
-  <a href="#deployment">Deployment</a><br>
-  <a href="#security">Security</a><br>
-  <a href="#license">License</a>
-</div>
+<details>
+  <summary><strong>Table of Contents</strong></summary>
+  <br>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#key-features">Key Features</a></li>
+    <li><a href="#tech-stack">Tech Stack</a></li>
+    <li><a href="#system-architecture">System Architecture</a></li>
+    <li><a href="#future-enhancements">Roadmap</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#deployment">Deployment</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#license">License</a></li>
+  </ul>
+</details>
 
 ---
 
