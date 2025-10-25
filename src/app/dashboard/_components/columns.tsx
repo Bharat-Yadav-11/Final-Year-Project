@@ -18,13 +18,13 @@ function UserCell({ userId }: { userId: Id<"users"> }) {
         <AvatarImage src={userProfile?.image} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      {userProfile?.name}
+      <span className="truncate">{userProfile?.name}</span>
     </div>
   );
 }
 
 export const columns: ColumnDef<
-  Doc<"files"> & { url: string; isFavorited: boolean }
+  Doc<"files"> & { url: string | null; isFavorited: boolean }
 >[] = [
   {
     accessorKey: "name",
