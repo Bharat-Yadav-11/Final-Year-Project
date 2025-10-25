@@ -1,160 +1,181 @@
-# 🚗 SmartDrive – AI-Integrated Personal Cloud Storage System
+# SmartDrive: AI-Powered Secure Cloud Storage Platform
 
-**SmartDrive** is a secure, scalable, and intelligent cloud platform that lets users **upload, organize, and access** their files from anywhere.  
-It integrates **Artificial Intelligence** to provide **automatic file categorization**, **semantic search**, and **smart recommendations**, offering an effortless and efficient file-management experience.
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Bharat-Yadav-11/Final-Year-Project/main/public/logo.png" alt="SmartDrive">
+</p>
 
-![Project Overview](./assets/overview.png)
+<p align="center">
+  <strong>An enterprise-grade cloud storage platform that combines AI intelligence, secure file management, and organization-based collaboration.</strong>
+</p>
 
----
-
-## 📋 Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [System Architecture](#system-architecture)
-- [Tech Stack](#tech-stack)
-- [Detailed Workflow](#detailed-workflow)
-- [AI Integration](#ai-integration)
-- [Security](#security)
-- [Deployment](#deployment)
-- [Future Enhancements](#future-enhancements)
-- [License](#license)
-- [Author](#author)
-
----
-
-## 🚀 Overview
-**SmartDrive** provides a modern alternative to traditional cloud storage systems such as Google Drive or Dropbox.  
-Built with **Next.js**, **Convex**, and **AI-powered modules**, it offers users a **smarter**, **context-aware**, and **high-performance** cloud experience.
-
-### 🎯 Key Objectives
-- Enable **secure and scalable** file storage  
-- Provide **AI-powered automation** for tagging and organization  
-- Support **semantic and voice-based search**  
-- Offer **real-time synchronization** across devices  
+<p align="center">
+  <a href="#overview">Overview</a> •
+  <a href="#key-features">Key Features</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#system-architecture">System Architecture</a> •
+  <a href="#future-enhancements">Roadmap</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#deployment">Deployment</a> •
+  <a href="#security">Security</a> •
+  <a href="#license">License</a>
+</p>
 
 ---
 
-## 🌟 Features
-- 🔐 **Secure Authentication** – via Clerk (supports MFA & OAuth)  
-- 🧠 **AI-Based File Tagging** – automatic classification and metadata generation  
-- 🔍 **Semantic Search** – find files using natural language (e.g., “Find my April invoice”)  
-- 🎙️ **Voice Search (Optional)** – powered by Whisper / Browser API  
-- ☁️ **Cloud Storage** – backed by Supabase or AWS S3  
-- ⚡ **Serverless Backend** – built with Convex for real-time state sync  
-- 🧩 **Responsive UI** – crafted using Next.js (TypeScript), Tailwind CSS, and ShadCN  
-- 🚀 **CI/CD Deployment** – hosted on Vercel with optional Docker support  
+## Overview
+
+SmartDrive is a modern, enterprise-grade cloud storage platform designed for individuals, teams, and developers seeking a secure, scalable, and intelligent file management experience. It allows users to store personal files or share data seamlessly within their organization, with intelligent role-based access control powered by Clerk and a real-time backend handled by Convex.
+
+Whether you're a developer looking for a cutting-edge storage solution or a business in need of a collaborative file-sharing environment, SmartDrive provides the foundation for next-generation cloud storage.
 
 ---
 
-## 🧩 System Architecture
-SmartDrive’s architecture is **modular**, **serverless**, and optimized for scalability and real-time interaction.
+## Key Features
 
-![System Architecture](./assets/architecture.png)
-
-### Highlights
-- Decoupled **frontend and backend** connected via Convex APIs  
-- Real-time **state synchronization** and secure API handling  
-- **Supabase/S3** for reliable file storage  
-- **Convex Data Layer** stores metadata and AI tags  
-- **OpenAI + Pinecone/FAISS** handle semantic and vector-based search  
+- **🔒 Secure Cloud Storage:** Robust file access control for both individual users and organizations, ensuring data privacy and security.
+- **🏢 Organization Support:** Leverages Clerk’s built-in organization system with webhooks for real-time synchronization of user and role changes.
+- **🔐 Role-Based Access Control:** Pre-defined "Admin" and "Member" roles to manage organization files, providing granular control over data access. Admins have full control, while members have restricted access.
+- **🤖 AI-Powered Management (Upcoming):** Future-ready architecture for smart file categorization, semantic search, and intelligent, automated tagging.
+- **📤 Personal & Organization Uploads:** Easily upload and manage files in a personal workspace or within a shared organization account.
+- **⚡ Real-Time Sync:** Powered by Convex’s reactive data architecture, all file and state changes are reflected instantly across all clients.
+- **✨ Modern UI:** A minimal, responsive, and intuitive user interface built with the latest web technologies, including ShadCN UI and Tailwind CSS.
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
-| Layer | Technology | Description |
-|--------|-------------|-------------|
-| **Frontend** | Next.js (TypeScript), Tailwind CSS, ShadCN | Interactive, modern, and responsive UI |
-| **Backend** | Convex (Serverless), TypeScript | Real-time API and business logic |
-| **Database** | Convex Data Layer | Metadata and AI tag storage |
-| **Storage** | Supabase / AWS S3 | Cloud object storage |
-| **AI / ML** | OpenAI Embeddings, TensorFlow/Keras, Pinecone/FAISS | AI tagging & semantic search |
-| **Authentication** | Clerk, JWT (optional) | Secure login and access control |
-| **Deployment** | Vercel, Docker (optional) | CI/CD and cloud scalability |
+The platform is built on a modern, serverless, and scalable technology stack.
 
----
-
-## 🔄 Detailed Workflow (Improved Methodology)
-
-### 1️⃣ User Authentication
-- User logs in securely through **Clerk** (supports social login & MFA).
-- Session data is validated, and tokens (JWT) manage secure access.
-
-### 2️⃣ File Upload & Storage
-- User uploads files through the web interface.
-- The file is validated by **Convex API** and stored in **Supabase/S3**.
-- Metadata and initial tags are stored in **Convex Data Layer**.
-
-### 3️⃣ AI Processing
-- **OpenAI Embeddings** extract semantic meaning from file content.
-- **TensorFlow/Keras** auto-classify images and documents.
-- Generated AI tags are saved for organization and search.
-
-### 4️⃣ Intelligent Search
-- Users can search with **natural language or voice**.
-- **Pinecone/FAISS** performs vector-similarity search on embeddings.
-- Relevant results are returned instantly.
-
-### 5️⃣ Real-Time Updates
-- Convex automatically syncs file changes (upload/edit/delete) across connected clients.
-
-### 6️⃣ Deployment & Delivery
-- Frontend and backend are deployed on **Vercel** with integrated CI/CD.
-- **Docker containers** provide consistent builds across environments.
+| Layer                            | Technology                                        | Description                                                 |
+| -------------------------------- | ------------------------------------------------- | ----------------------------------------------------------- |
+| **Frontend**                     | [Next.js](https://nextjs.org/), [TypeScript](https://www.typescriptlang.org/) | For a fast, server-rendered React application.              |
+| **Styling**                      | [Tailwind CSS](https://tailwindcss.com/), [ShadCN UI](https://ui.shadcn.com/) | For a modern, utility-first, and accessible design system. |
+| **Backend & Database**           | [Convex](https://www.convex.dev/)                 | Handles real-time backend logic, database, and file storage. |
+| **Authentication & Org Mgmt** | [Clerk](https://clerk.com/)                       | Manages user authentication and organization structures.      |
+| **Deployment**                   | [Vercel](https://vercel.com/)                     | For seamless, continuous deployment and hosting.            |
 
 ---
 
-## 🧠 AI Integration
+## System Architecture
 
-| Feature | Tool / Model | Description |
-|----------|---------------|-------------|
-| **Semantic Search** | OpenAI Embeddings | Finds contextually similar files |
-| **Vector Database** | Pinecone / FAISS | Stores and queries vector data |
-| **Image Classification** | TensorFlow / Keras | Auto-labels uploaded images |
-| **Voice Search** | Whisper / Browser Speech API | Converts speech to text for search |
+The architecture is designed for simplicity, security, and real-time performance.
 
----
+1.  **User Authentication & Context:** The user interacts with the frontend and is authenticated by **Clerk**, which also provides the organization context (ID, role).
+2.  **Frontend Interface:** The **Next.js** and **ShadCN UI** frontend provides a responsive and interactive user experience.
+3.  **Backend Logic:** All backend operations (file uploads, queries, mutations) are sent to **Convex**.
+4.  **Real-Time Database & Storage:** **Convex** processes these operations, updates the database, stores files, and pushes real-time updates to all connected clients.
 
-## 🔐 Security
-- **Clerk Authentication** ensures safe and encrypted sign-in  
-- **MFA & OAuth** support for extra security  
-- **JWT-based Access Control (optional)**  
-- Private file access policies and secure HTTPS communication  
+```mermaid
+graph TD
+    A[User] -- Authenticates & gets org context --> B[Clerk];
+    A -- Interacts with --> C[Frontend (Next.js + ShadCN)];
+    C -- Sends requests --> D[Convex (Backend, DB, Real-Time Logic)];
+    B -- Webhooks sync org data --> D;
+    D -- Manages --> E[File Storage];
+```
 
----
-
-## ⚙️ Deployment
-- Deployed seamlessly on **Vercel**  
-- **CI/CD pipelines** for automatic build and deploy  
-- Optional **Docker** setup for containerized environments  
-- Edge network optimization for minimal latency  
+- **Personal uploads** are stored with a `userId` reference.
+- **Organization uploads** are stored with an `orgId` reference.
+- **Clerk webhooks** are used to synchronize organization events (creation, user role changes) with the Convex backend in real time, ensuring data consistency.
 
 ---
 
-## 🚧 Future Enhancements
-- 🧾 **Document Summarization** using advanced LLMs  
-- 📂 **Collaborative File Sharing** and multi-user access  
-- 📜 **File Version Control** and history tracking  
-- ☁️ **Third-party Integrations** (Google Drive / Dropbox)  
-- 🗣️ **Multilingual Voice Support** for accessibility  
+## Future Enhancements
+
+SmartDrive is an evolving platform. Our roadmap includes:
+
+- **🧠 AI-Based File Tagging & Semantic Search:** Implement machine learning models to automatically tag files and enable natural language search.
+- **📊 Dashboard Analytics:** Provide insights into storage usage, user activity, and file access patterns.
+- **🔄 File Version Control:** Allow users to view and roll back to previous versions of a file.
+- **📧 Email Notifications:** Use webhooks to trigger email alerts for new file uploads and shares.
+- **📦 External Storage Integration:** Add support for S3, R2, or other object storage providers.
+- **💳 Tier-Based Billing:** Integrate Stripe for subscription plans with different storage tiers.
 
 ---
 
-## 🧾 License
-This project is licensed under the **MIT License** —  
-Free for personal, academic, and open-source use.
+## Getting Started
+
+Follow these steps to set up and run the project locally.
+
+### Prerequisites
+
+- Node.js (v18 or later)
+- npm or a compatible package manager
+- A Clerk account ([clerk.com](https://clerk.com/))
+- A Convex account ([convex.dev](https://www.convex.dev/))
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/smartdrive.git
+cd smartdrive
+```
+
+### Step 2: Install Dependencies
+
+```bash
+npm install
+```
+
+### Step 3: Configure Environment Variables
+
+Create a `.env.local` file in the root of your project and add the following keys. You can get these values from your Clerk and Convex dashboards.
+
+```ini
+# Clerk Configuration
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+CLERK_WEBHOOK_SECRET=your_clerk_webhook_secret
+
+# Convex Configuration
+NEXT_PUBLIC_CONVEX_URL=your_convex_url
+CONVEX_DEPLOYMENT=your_convex_deployment
+```
+
+### Step 4: Run Convex Backend
+
+In a separate terminal, start the Convex development server. This will sync your schema and functions.
+
+```bash
+npx convex dev
+```
+
+Follow the prompts to connect your project to your Convex account.
+
+### Step 5: Start the Development Server
+
+In your main terminal, start the Next.js frontend application.
+
+```bash
+npm run dev
+```
+
+Visit the app locally at [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 👨‍💻 Author
-**Mohit Sharma**
-**Bharat Bhushan**
-Final Year Project – *SmartDrive*  
-📬 [GitHub Profile](https://github.com/MohiTSh4rmA)
-📬 [GitHub Profile]((https://github.com/Bharat-Yadav-11))
-🌐 Project Repository: [SmartDrive on GitHub](https://github.com/MohiTSh4rmA/Final-Year-Project)
+## Deployment
+
+SmartDrive is optimized for deployment on **Vercel**.
+
+1.  Push your code to a Git repository (e.g., GitHub).
+2.  Import the repository into your Vercel account.
+3.  Configure the same environment variables from your `.env.local` file in **Vercel → Project Settings → Environment Variables**.
+4.  Deploy! Vercel will automatically build and deploy your Next.js frontend. Your Convex backend functions run server-side and are already deployed.
 
 ---
 
-### 🖼️ Note
-Place your diagrams in a folder named `assets/` in your repository:
+## Security
+
+Security is a top priority for SmartDrive.
+
+- **Data Isolation:** All user and organization data are isolated using unique IDs (`userId`, `orgId`).
+- **Server-Side Validation:** Access control is enforced via Clerk's authentication state and verified server-side in every Convex function to prevent unauthorized access.
+- **Future Enhancements:** We plan to implement encryption-at-rest for files and metadata hashing to ensure data integrity.
+
+---
+
+## License
+
+This project is licensed under the **MIT License**. You are free to use, modify, and distribute this software with proper attribution. See the `LICENSE` file for more details.
+```
