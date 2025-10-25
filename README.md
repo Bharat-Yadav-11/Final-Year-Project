@@ -11,14 +11,14 @@
 ---
 
 <div align="center">
-  <a href="#overview">Overview</a> •
-  <a href="#key-features">Key Features</a> •
-  <a href="#tech-stack">Tech Stack</a> •
-  <a href="#system-architecture">System Architecture</a> •
-  <a href="#future-enhancements">Roadmap</a> •
-  <a href="#getting-started">Getting Started</a> •
-  <a href="#deployment">Deployment</a> •
-  <a href="#security">Security</a> •
+  <a href="#overview">Overview</a><br>
+  <a href="#key-features">Key Features</a><br>
+  <a href="#tech-stack">Tech Stack</a><br>
+  <a href="#system-architecture">System Architecture</a><br>
+  <a href="#future-enhancements">Roadmap</a><br>
+  <a href="#getting-started">Getting Started</a><br>
+  <a href="#deployment">Deployment</a><br>
+  <a href="#security">Security</a><br>
   <a href="#license">License</a>
 </div>
 
