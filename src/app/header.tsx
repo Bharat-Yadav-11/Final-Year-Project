@@ -88,14 +88,14 @@ export function Header() {
               </SignedIn>
               <div className="w-full border-t pt-4 flex flex-col gap-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-600">Switch Organization</span>
                   <SignedIn>
+                    <span className="text-sm font-medium text-gray-600">Switch Organization</span>
                     <OrganizationSwitcher />
                   </SignedIn>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-600">Manage Account</span>
                   <SignedIn>
+                    <span className="text-sm font-medium text-gray-600">Manage Account</span>
                     <UserButton />
                   </SignedIn>
                 </div>
