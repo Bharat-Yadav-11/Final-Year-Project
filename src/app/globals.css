@@ -86,3 +86,18 @@
 .animate-marquee {
   animation: marquee 20s linear infinite;
 }
+
+.gradient-border-container {
+  position: relative;
+  padding: 2px; 
+  border-radius: 1.1rem;
+  background: linear-gradient(90deg, #e879f9, #a855f7, #6366f1, #e879f9);
+  background-size: 200% 200%;
+  animation: gradient-animation 6s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

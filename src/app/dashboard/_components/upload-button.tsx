@@ -2,14 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useOrganization, useUser } from "@clerk/nextjs";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
@@ -17,18 +10,15 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
-  DialogTitle,
+  DialogTitle, 
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import { z } from "zod";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, UploadIcon } from "lucide-react";
 import { Doc } from "../../../../convex/_generated/dataModel";
 
 const formSchema = z.object({
@@ -43,22 +33,21 @@ export function UploadButton() {
   const organization = useOrganization();
   const user = useUser();
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const createFile = useMutation(api.files.createFile);
+  const [isFileDialogOpen, setIsFileDialogOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      file: undefined,
-    },
+    defaultValues: { title: "", file: undefined },
   });
 
   const fileRef = form.register("file");
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const orgId = organization.organization?.id ?? user.user?.id;
     if (!orgId) return;
 
     const postUrl = await generateUploadUrl();
-
     const fileType = values.file[0].type;
 
     const result = await fetch(postUrl, {
@@ -69,7 +58,7 @@ export function UploadButton() {
     const { storageId } = await result.json();
 
     const types = {
-      "image/png": "image",
+      "image/png": "image", "image/jpeg": "image",
       "application/pdf": "pdf",
       "text/csv": "csv",
     } as Record<string, Doc<"files">["type"]>;
@@ -79,56 +68,43 @@ export function UploadButton() {
         name: values.title,
         fileId: storageId,
         orgId,
-        type: types[fileType],
+        type: types[fileType] ?? "pdf",
       });
 
       form.reset();
-
       setIsFileDialogOpen(false);
 
       toast({
         variant: "success",
         title: "File Uploaded",
-        description: "Now everyone can view your file",
+        description: `"${values.title}" is now accessible to your organization.`,
       });
     } catch (err) {
       toast({
         variant: "destructive",
         title: "Something went wrong",
-        description: "Your file could not be uploaded, try again later",
+        description: "Your file could not be uploaded, try again later.",
       });
     }
   }
 
-  let orgId: string | undefined = undefined;
-  if (organization.isLoaded && user.isLoaded) {
-    orgId = organization.organization?.id ?? user.user?.id;
-  }
-
-  const [isFileDialogOpen, setIsFileDialogOpen] = useState(false);
-
-  const createFile = useMutation(api.files.createFile);
-
   return (
-    <Dialog
-      open={isFileDialogOpen}
-      onOpenChange={(isOpen) => {
-        setIsFileDialogOpen(isOpen);
-        form.reset();
-      }}
-    >
+    <Dialog open={isFileDialogOpen} onOpenChange={(isOpen) => {
+      setIsFileDialogOpen(isOpen);
+      form.reset();
+    }}>
       <DialogTrigger asChild>
-        <Button>Upload File</Button>
+        <Button className="flex gap-2">
+          <UploadIcon className="w-4 h-4" /> Upload File
+        </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="mb-8">Upload your File Here</DialogTitle>
-          <DialogDescription>
-            This file will be accessible by anyone in your organization
-          </DialogDescription>
-        </DialogHeader>
-
-        <div>
+        <DialogTitle>Upload your File</DialogTitle>
+        <DialogDescription>
+          This file will be accessible by anyone in your organization.
+        </DialogDescription>
+        
+        <div className="mt-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -144,7 +120,6 @@ export function UploadButton() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="file"
@@ -158,11 +133,7 @@ export function UploadButton() {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="flex gap-1"
-              >
+              <Button type="submit" disabled={form.formState.isSubmitting} className="flex gap-1">
                 {form.formState.isSubmitting && (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 )}
