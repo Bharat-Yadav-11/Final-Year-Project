@@ -112,8 +112,10 @@ export function FileBrowser({
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="image">Image</SelectItem>
-                <SelectItem value="csv">CSV</SelectItem>
+                <SelectItem value="csv">CSV/Excel</SelectItem>
                 <SelectItem value="pdf">PDF</SelectItem>
+                <SelectItem value="word">Word</SelectItem>
+                <SelectItem value="ppt">PPT</SelectItem>
               </SelectContent>
             </Select>
           </div>

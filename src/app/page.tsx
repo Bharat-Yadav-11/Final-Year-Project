@@ -173,36 +173,50 @@ export default function LandingPage() {
       </section>
 
 
-      {/* Section 3: Testimonials - NOW A SCROLLING MARQUEE */}
-      <section className="relative isolate bg-slate-50 py-24 sm:py-32">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
+      {/* Section 3: Testimonials - FINAL ENHANCED VERSION */}
+      <section className="relative isolate bg-slate-50 py-24 sm:py-32 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
           <div className="absolute left-0 top-1/2 h-[50rem] w-[50rem] -translate-y-1/2 rounded-full bg-gradient-to-br from-blue-100 to-transparent opacity-50 blur-3xl"></div>
           <div className="absolute right-0 top-1/2 h-[50rem] w-[50rem] -translate-y-1/2 rounded-full bg-gradient-to-bl from-purple-100 to-transparent opacity-50 blur-3xl"></div>
         </div>
         <div className="mx-auto max-w-7xl">
-          <motion.div className="mx-auto max-w-3xl text-center" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.5 }} variants={fadeIn}>
+          <motion.div
+            className="mx-auto max-w-3xl text-center px-6 lg:px-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            variants={fadeIn}
+          >
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Loved by Teams Everywhere</h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
               See what our customers have to say about their new favorite productivity tool.
             </p>
           </motion.div>
-          {/* CHANGE 4: The Marquee Container */}
-          <div className="group relative mt-16 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
-            <motion.div className="flex flex-nowrap animate-marquee group-hover:[animation-play-state:paused]">
-              {/* We render the testimonials twice for a seamless loop */}
+
+          <div
+            className="group relative mt-16 w-full overflow-hidden"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)'
+            }}
+          >
+            <motion.div
+              className="flex flex-nowrap animate-marquee group-hover:[animation-play-state:paused]"
+            >
               {[...testimonials, ...testimonials].map((testimonial, index) => (
-                <figure key={index} className="mx-4 w-80 flex-shrink-0 rounded-2xl bg-white/70 p-8 shadow-xl ring-1 ring-gray-900/10 backdrop-blur-md md:w-96">
-                  <blockquote className="text-left text-lg font-medium leading-7 text-gray-900">
-                    <p>“{testimonial.quote}”</p>
-                  </blockquote>
-                  <figcaption className="mt-6 flex items-center gap-x-4">
-                    <Image className="h-12 w-12 rounded-full" src={testimonial.image} alt={`Photo of ${testimonial.name}`} width="48" height="48" />
-                    <div>
-                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                      <div className="text-gray-600">{testimonial.title}</div>
-                    </div>
-                  </figcaption>
-                </figure>
+                <div key={index} className="gradient-border-container mx-4 flex-shrink-0">
+                  <figure className="h-full w-80 rounded-2xl bg-white/80 p-8 shadow-lg backdrop-blur-md md:w-96 lg:w-[28rem]">
+                    <blockquote className="text-left text-lg font-medium leading-7 text-gray-900">
+                      <p>“{testimonial.quote}”</p>
+                    </blockquote>
+                    <figcaption className="mt-6 flex items-center gap-x-4">
+                      <Image className="h-12 w-12 rounded-full object-cover" src={testimonial.image} alt={`Photo of ${testimonial.name}`} width="48" height="48" />
+                      <div>
+                        <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                        <div className="text-gray-600">{testimonial.title}</div>
+                      </div>
+                    </figcaption>
+                  </figure>
+                </div>
               ))}
             </motion.div>
           </div>

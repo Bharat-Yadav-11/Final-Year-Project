@@ -22,7 +22,7 @@ export async function getUser(
   if (!user) {
     throw new ConvexError("expected user to be defined");
   }
-  console.log('users.ts', tokenIdentifier); 
+
   return user;
 }
 

@@ -4,7 +4,9 @@ import { v } from "convex/values";
 export const fileTypes = v.union(
   v.literal("image"),
   v.literal("csv"),
-  v.literal("pdf")
+  v.literal("pdf"),
+  v.literal("word"),
+  v.literal("ppt"),
 );
 
 export const roles = v.union(v.literal("admin"), v.literal("member"));

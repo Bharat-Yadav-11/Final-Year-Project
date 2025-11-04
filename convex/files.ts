@@ -12,7 +12,6 @@ import { Doc, Id } from "./_generated/dataModel";
 
 export const generateUploadUrl = mutation(async (ctx) => {
   const identity = await ctx.auth.getUserIdentity();
-  console.log(identity);
 
   if (!identity) {
     throw new ConvexError("you must be logged in to upload a file");
@@ -26,7 +25,6 @@ export async function hasAccessToOrg(
   orgId: string 
 ) {
   const identity = await ctx.auth.getUserIdentity();
-  console.log(identity);
 
   if (!identity) {
     return null;
@@ -64,8 +62,6 @@ export const createFile = mutation({
   
   async handler(ctx, args) {
     const hasAccess = await hasAccessToOrg(ctx, args.orgId);
-    console.log('hasAccess', hasAccess);
-    console.log('file.ts -> createFile -> handler', args.orgId);
 
     if (!hasAccess) {
       throw new ConvexError("you do not have access to this org");

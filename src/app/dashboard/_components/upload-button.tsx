@@ -58,9 +58,17 @@ export function UploadButton() {
     const { storageId } = await result.json();
 
     const types = {
-      "image/png": "image", "image/jpeg": "image",
+      "image/png": "image",
+      "image/jpeg": "image",
+      "image/gif": "image",
+      "image/webp": "image",
+      "image/svg+xml": "image",
       "application/pdf": "pdf",
       "text/csv": "csv",
+      "application/msword": "word",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "word",
+      "application/vnd.ms-powerpoint": "ppt",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation": "ppt",
     } as Record<string, Doc<"files">["type"]>;
 
     try {

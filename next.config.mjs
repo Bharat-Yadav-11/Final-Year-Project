@@ -3,7 +3,10 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "https://focused-dachshund-484.convex.cloud",
+        protocol: 'https',
+        hostname: 'focused-dachshund-484.convex.cloud',
+        port: '',
+        pathname: '/**',
       },
       {
         protocol: 'https',
