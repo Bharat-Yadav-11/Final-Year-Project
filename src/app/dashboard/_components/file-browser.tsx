@@ -53,7 +53,7 @@ function EmptyPlaceholder() {
         Your space is empty.
       </div>
       <p className="text-gray-500 text-center">
-        You haven't upload anything yet. Upload your first file to get started!
+        You haven&apos;t upload anything yet. Upload your first file to get started!
       </p>
 
       <div className="mb-12">
