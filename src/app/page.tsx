@@ -101,12 +101,12 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <motion.div className="mx-auto max-w-3xl text-center" initial="hidden" animate="visible" variants={cardContainer}>
+        <motion.div className="mx-auto max-w-5xl text-center" initial="hidden" animate="visible" variants={cardContainer}>
           <motion.div variants={cardItem}>
             <Image src="/logo.png" width="220" height="220" alt="SmartDrive logo" className="inline-block mb-8" />
           </motion.div>
           <motion.h1 variants={cardItem} className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-            The smartest way to share files with your company
+            The simplest, smartest way to share files — for teams, businesses, and individuals alike.
           </motion.h1>
           <motion.p variants={cardItem} className="mt-6 text-lg leading-8 text-gray-600">
             Make an account and start managing your files with the power of AI in less than a minute.

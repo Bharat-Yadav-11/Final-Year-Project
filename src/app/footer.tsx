@@ -20,7 +20,7 @@ export function Footer() {
               <span className="text-2xl font-bold">SmartDrive</span>
             </div>
             <p className="text-sm leading-6 text-gray-300">
-              The smartest way to share and manage your company's files.
+              The simplest, smartest way to share files — for teams, businesses, and individuals alike.
             </p>
           </div>
 

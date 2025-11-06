@@ -8,7 +8,7 @@ import { FileCard } from "./file-card";
 import Image from "next/image";
 import { GridIcon, Loader2, RowsIcon } from "lucide-react";
 import { SearchBar } from "./search-bar";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { DataTable } from "./file-table";
 import { columns } from "./columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,6 +23,12 @@ import { Doc } from "../../../../convex/_generated/dataModel";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
 import { MobileNav } from "./mobile-nav";
+import { FilePreviewModal } from "./file-preview-modal";
+
+type ModifiedFileType = Doc<"files"> & {
+  isFavorited: boolean;
+  url: string | null;
+};
 
 function LoadingPlaceholder() {
   return (
@@ -38,13 +44,17 @@ function EmptyPlaceholder() {
     <div className="flex flex-col gap-8 w-full items-center mt-24">
       <Image
         alt="An image of a picture and directory icon"
-        width="300"
-        height="300"
+        width="250"
+        height="250"
         src="/empty.svg"
+        priority
       />
       <div className="text-2xl text-center">
-        Your space is empty. Upload your first file to get started!
+        Your space is empty.
       </div>
+      <p className="text-gray-500 text-center">
+        You haven't upload anything yet. Upload your first file to get started!
+      </p>
 
       <div className="mb-12">
         <UploadButton />
@@ -57,16 +67,19 @@ export function FileBrowser({
   title,
   favoritesOnly,
   deletedOnly,
+  placeholder,
 }: {
   title: string;
   favoritesOnly?: boolean;
   deletedOnly?: boolean;
+  placeholder?: ReactNode;
 }) {
 
   const organization = useOrganization();
   const user = useUser();
   const [query, setQuery] = useState("");
   const [type, setType] = useState<Doc<"files">["type"] | "all">("all");
+  const [previewFile, setPreviewFile] = useState<ModifiedFileType | null>(null);
 
   let orgId: string | undefined = undefined;
   if (organization.isLoaded && user.isLoaded) {
@@ -77,10 +90,11 @@ export function FileBrowser({
   const files = useQuery(api.files.getFiles, orgId ? { orgId, type: type === "all" ? undefined : type, query, favorites: favoritesOnly, deletedOnly } : "skip");
   const isLoading = files === undefined;
 
-  const modifiedFiles = files?.map((file) => ({ ...file, isFavorited: (favorites ?? []).some((favorite) => favorite.fileId === file._id) })) ?? [];
+  const modifiedFiles: ModifiedFileType[] = files?.map((file) => ({ ...file, isFavorited: (favorites ?? []).some((favorite) => favorite.fileId === file._id) })) ?? [];
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+      <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />
       {/* HEADER: ENHANCED FOR CLEANER MOBILE LAYOUT */}
       <div className="flex flex-col gap-6 mb-8">
         <div className="flex items-center justify-between">
@@ -125,7 +139,9 @@ export function FileBrowser({
 
         <TabsContent value="grid">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {modifiedFiles?.map((file) => (<FileCard key={file._id} file={file} />))}
+            {modifiedFiles?.map((file) => (
+              <FileCard key={file._id} file={file} onPreview={() => setPreviewFile(file)} />
+            ))}
           </div>
         </TabsContent>
 
@@ -134,7 +150,9 @@ export function FileBrowser({
         </TabsContent>
       </Tabs>
 
-      {!isLoading && files.length === 0 && <EmptyPlaceholder />}
+      {!isLoading && files.length === 0 && (
+        placeholder ? placeholder : <EmptyPlaceholder />
+        )}
     </motion.div>
   );
 }

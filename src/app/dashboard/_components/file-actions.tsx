@@ -97,7 +97,7 @@ export function FileCardActions({
           >
             {isFavorited ? (
               <>
-                <StarIcon className="w-4 h-4" /> Unfavorite
+                <StarIcon className="w-4 h-4 stroke-yellow-500" fill="gold" /> Unfavorite
               </>
             ) : (
               <>
