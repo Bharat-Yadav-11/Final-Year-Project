@@ -2,8 +2,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatRelative } from "date-fns";
 import { Doc } from "../../../../convex/_generated/dataModel";
-import { FileTextIcon, ImageIcon, PresentationIcon } from "lucide-react";
-import { ReactNode } from "react";
+import { Archive, FileAudio, FileIcon, FileTextIcon, FileVideo, ImageIcon, PresentationIcon, Sheet } from "lucide-react";
+import { memo, ReactNode } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import Image from "next/image";
@@ -31,7 +31,7 @@ const ExcelIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 
-export function FileCard({
+export const FileCard = memo(function FileCard({
   file,
   onPreview,
 }: {
@@ -48,6 +48,11 @@ export function FileCard({
     csv: <ExcelIcon />,
     word: <FileTextIcon />,
     ppt: <PresentationIcon />,
+    audio: <FileAudio />,
+    video: <FileVideo />,
+    excel: <ExcelIcon />,
+    zip: <Archive />,
+    other: <FileIcon />,
   } as Record<Doc<"files">["type"], ReactNode>;
 
   return (
@@ -75,6 +80,7 @@ export function FileCard({
                 src={file.url}
                 fill
                 style={{ objectFit: 'cover' }}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           )}
@@ -82,6 +88,11 @@ export function FileCard({
           {file.type === "pdf" && <PDFIcon className="w-20 h-20 text-gray-400" />}
           {file.type === "word" && <FileTextIcon className="w-20 h-20 text-gray-400" />}
           {file.type === "ppt" && <PresentationIcon className="w-20 h-20 text-gray-400" />}
+          {file.type === "audio" && <FileAudio className="w-20 h-20 text-gray-400" />}
+          {file.type === "video" && <FileVideo className="w-20 h-20 text-gray-400" />}
+          {file.type === "excel" && <ExcelIcon className="w-20 h-20 text-gray-400" />}
+          {file.type === "zip" && <Archive className="w-20 h-20 text-gray-400" />}
+          {file.type === "other" && <FileIcon className="w-20 h-20 text-gray-400" />}
         </CardContent>
 
         <CardFooter className="flex flex-col xs:flex-row items-start xs:items-center gap-2 xs:justify-between text-xs text-gray-700">
@@ -99,4 +110,4 @@ export function FileCard({
       </Card>
     </motion.div>
   );
-}
+});

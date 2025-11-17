@@ -10,7 +10,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogTitle, 
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { z } from "zod";
@@ -58,17 +58,46 @@ export function UploadButton() {
     const { storageId } = await result.json();
 
     const types = {
+      // Images
       "image/png": "image",
       "image/jpeg": "image",
       "image/gif": "image",
       "image/webp": "image",
       "image/svg+xml": "image",
+
+      // Pdf
       "application/pdf": "pdf",
+
+      // CSV
       "text/csv": "csv",
+
+      // Excel
+      "application/vnd.ms-excel": "excel", // .xls
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "excel", // .xlsx
+
+      // Word/Doc
       "application/msword": "word",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "word",
+
+      // Ppt
       "application/vnd.ms-powerpoint": "ppt",
       "application/vnd.openxmlformats-officedocument.presentationml.presentation": "ppt",
+
+      // Audio
+      "audio/mpeg": "audio",
+      "audio/wav": "audio",
+      "audio/ogg": "audio",
+      "audio/mp4": "audio",
+
+      // Video
+      "video/mp4": "video",
+      "video/quicktime": "video",
+      "video/x-ms-wmv": "video",
+      "video/webm": "video",
+
+      // ZIP
+      "application/zip": "zip",
+      "application/x-zip-compressed": "zip",
     } as Record<string, Doc<"files">["type"]>;
 
     try {
@@ -76,7 +105,7 @@ export function UploadButton() {
         name: values.title,
         fileId: storageId,
         orgId,
-        type: types[fileType] ?? "pdf",
+        type: types[fileType] ?? "other",
       });
 
       form.reset();
@@ -111,7 +140,7 @@ export function UploadButton() {
         <DialogDescription>
           This file will be accessible by anyone in your organization.
         </DialogDescription>
-        
+
         <div className="mt-4">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

@@ -7,6 +7,11 @@ export const fileTypes = v.union(
   v.literal("pdf"),
   v.literal("word"),
   v.literal("ppt"),
+  v.literal("audio"),
+  v.literal("video"),
+  v.literal("excel"),
+  v.literal("zip"),
+  v.literal("other")
 );
 
 export const roles = v.union(v.literal("admin"), v.literal("member"));

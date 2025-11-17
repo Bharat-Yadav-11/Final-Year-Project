@@ -126,10 +126,15 @@ export function FileBrowser({
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
                 <SelectItem value="image">Image</SelectItem>
-                <SelectItem value="csv">CSV/Excel</SelectItem>
+                <SelectItem value="excel">Excel</SelectItem>
+                <SelectItem value="csv">CSV</SelectItem>
                 <SelectItem value="pdf">PDF</SelectItem>
                 <SelectItem value="word">Word</SelectItem>
                 <SelectItem value="ppt">PPT</SelectItem>
+                <SelectItem value="audio">Audio</SelectItem>
+                <SelectItem value="video">Video</SelectItem>
+                <SelectItem value="zip">Archieve (Zip)</SelectItem>
+                <SelectItem value="other">Other Files</SelectItem>
               </SelectContent>
             </Select>
           </div>
