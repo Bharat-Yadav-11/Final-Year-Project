@@ -269,3 +269,42 @@ async function hasAccessToFile(
 
   return { user: hasAccess.user, file };
 }
+
+export const getStorageUsage = query({
+  args: {},
+  async handler(ctx) {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      return 0;
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_tokenIdentifier", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier)
+      )
+      .first();
+
+    if (!user) {
+      return 0;
+    }
+
+    const allUserFiles = await ctx.db
+      .query("files")
+      .withIndex("by_userId", (q) => q.eq("userId", user._id))
+      .collect();
+
+    const activeFiles = allUserFiles.filter((file) => file.shouldDelete !== true);
+
+    const metadataPromises = activeFiles.map((file) =>
+      ctx.storage.getMetadata(file.fileId)
+    );
+    const metadatas = await Promise.all(metadataPromises);
+
+    const totalSize = metadatas
+      .filter((metadata) => metadata !== null)
+      .reduce((acc, metadata) => acc + (metadata?.size ?? 0), 0);
+
+    return totalSize;
+  },
+});

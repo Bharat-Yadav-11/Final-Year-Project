@@ -21,7 +21,9 @@ export default defineSchema({
     shouldDelete: v.optional(v.boolean()),
   })
     .index("by_orgId", ["orgId"])
-    .index("by_shouldDelete", ["shouldDelete"]),
+    .index("by_shouldDelete", ["shouldDelete"])
+    .index("by_userId", ["userId"])
+    .index("by_userId_and_shouldDelete", ["userId", "shouldDelete"]),
   favorites: defineTable({
     fileId: v.id("files"),
     orgId: v.string(),

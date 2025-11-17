@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { FileIcon, StarIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { StorageBar } from "./_components/storage-bar";
 
 const navLinks = [
   { href: "/dashboard/files", icon: <FileIcon />, label: "All Files" },
@@ -23,6 +24,7 @@ export function SideNav() {
   return (
   
     <nav className="flex flex-col gap-4">
+      <div>
       {navLinks.map((link) => {
         const isActive = pathname.startsWith(link.href);
         return (
@@ -42,6 +44,10 @@ export function SideNav() {
           </Link>
         );
       })}
+    </div>
+    <div className="mt-auto">
+        <StorageBar />
+      </div>
     </nav>
   );
 }
