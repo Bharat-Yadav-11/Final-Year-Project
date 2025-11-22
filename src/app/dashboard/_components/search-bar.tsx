@@ -31,7 +31,7 @@ export function SearchBar({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex gap-2 items-center w-full md:max-w-xs"
+        className="flex gap-2 items-center w-full md:max-w-lg"
       >
         <FormField
           control={form.control}
@@ -39,7 +39,19 @@ export function SearchBar({
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>
-                <Input {...field} placeholder="Search file names..." />
+                <Input
+                  {...field}
+                  placeholder="Try: find invoice from April"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    field.onChange(value);
+
+                    // If input becomes empty → reset to show all files immediately
+                    if (value.trim() === "") {
+                      setQuery("");
+                    }
+                  }}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

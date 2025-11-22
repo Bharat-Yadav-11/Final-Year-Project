@@ -3,12 +3,13 @@ import {
   MutationCtx,
   QueryCtx,
   internalMutation,
-  mutation, 
+  internalQuery,
+  mutation,
   query,
 } from "./_generated/server";
-import { getUser } from "./users";
 import { fileTypes } from "./schema";
 import { Doc, Id } from "./_generated/dataModel";
+import { internal } from "./_generated/api";
 
 export const generateUploadUrl = mutation(async (ctx) => {
   const identity = await ctx.auth.getUserIdentity();
@@ -22,7 +23,7 @@ export const generateUploadUrl = mutation(async (ctx) => {
 
 export async function hasAccessToOrg(
   ctx: QueryCtx | MutationCtx,
-  orgId: string 
+  orgId: string
 ) {
   const identity = await ctx.auth.getUserIdentity();
 
@@ -34,7 +35,7 @@ export async function hasAccessToOrg(
     .query("users")
     .withIndex("by_tokenIdentifier", (q) =>
       q.eq("tokenIdentifier", identity.tokenIdentifier)
-    ) 
+    )
     .first();
 
   if (!user) {
@@ -59,7 +60,7 @@ export const createFile = mutation({
     orgId: v.string(),
     type: fileTypes,
   },
-  
+
   async handler(ctx, args) {
     const hasAccess = await hasAccessToOrg(ctx, args.orgId);
 
@@ -67,12 +68,16 @@ export const createFile = mutation({
       throw new ConvexError("you do not have access to this org");
     }
 
-    await ctx.db.insert("files", {  
+    const fileId = await ctx.db.insert("files", {
       name: args.name,
       orgId: args.orgId,
       fileId: args.fileId,
       type: args.type,
       userId: hasAccess.user._id,
+    });
+
+    await ctx.scheduler.runAfter(0, internal.actions.generateEmbedding, {
+      fileId: fileId,
     });
   },
 });
@@ -294,7 +299,9 @@ export const getStorageUsage = query({
       .withIndex("by_userId", (q) => q.eq("userId", user._id))
       .collect();
 
-    const activeFiles = allUserFiles.filter((file) => file.shouldDelete !== true);
+    const activeFiles = allUserFiles.filter(
+      (file) => file.shouldDelete !== true
+    );
 
     const metadataPromises = activeFiles.map((file) =>
       ctx.storage.getMetadata(file.fileId)
@@ -306,5 +313,47 @@ export const getStorageUsage = query({
       .reduce((acc, metadata) => acc + (metadata?.size ?? 0), 0);
 
     return totalSize;
+  },
+});
+
+export const getFile = internalQuery({
+  args: { fileId: v.id("files") },
+  async handler(ctx, args) {
+    return ctx.db.get(args.fileId);
+  },
+});
+
+export const updateFileEmbedding = internalMutation({
+  args: {
+    fileId: v.id("files"),
+    embedding: v.array(v.float64()),
+  },
+  async handler(ctx, args) {
+    await ctx.db.patch(args.fileId, {
+      embedding: args.embedding,
+    });
+  },
+});
+
+export const backfillEmbeddings = internalMutation({
+  args: {},
+  async handler(ctx) {
+    // 1. Get all files
+    const files = await ctx.db.query("files").collect();
+
+    let count = 0;
+    for (const file of files) {
+      // 2. Check if the file is missing an embedding
+      if (!file.embedding) {
+        // 3. Schedule the action (which lives in actions.ts) to run immediately
+        await ctx.scheduler.runAfter(0, internal.actions.generateEmbedding, {
+          fileId: file._id,
+        });
+        count++;
+      }
+    }
+    console.log(
+      `Scheduled background embedding generation for ${count} files.`
+    );
   },
 });

@@ -24,11 +24,17 @@ export default defineSchema({
     fileId: v.id("_storage"),
     userId: v.id("users"),
     shouldDelete: v.optional(v.boolean()),
+    embedding: v.optional(v.array(v.float64())),
   })
     .index("by_orgId", ["orgId"])
     .index("by_shouldDelete", ["shouldDelete"])
     .index("by_userId", ["userId"])
-    .index("by_userId_and_shouldDelete", ["userId", "shouldDelete"]),
+    .index("by_userId_and_shouldDelete", ["userId", "shouldDelete"])
+    .vectorIndex("by_embedding", {
+      vectorField: "embedding",
+      dimensions: 768, 
+      filterFields: ["orgId"],
+    }),
   favorites: defineTable({
     fileId: v.id("files"),
     orgId: v.string(),

@@ -1,14 +1,14 @@
 "use client";
 
 import { useOrganization, useUser } from "@clerk/nextjs";
-import { useQuery } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { UploadButton } from "./upload-button";
 import { FileCard } from "./file-card";
 import Image from "next/image";
 import { GridIcon, Loader2, RowsIcon } from "lucide-react";
 import { SearchBar } from "./search-bar";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { DataTable } from "./file-table";
 import { columns } from "./columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -81,6 +81,9 @@ export function FileBrowser({
   const [type, setType] = useState<Doc<"files">["type"] | "all">("all");
   const [previewFile, setPreviewFile] = useState<ModifiedFileType | null>(null);
 
+  const [searchResults, setSearchResults] = useState<any[] | null>(null); 
+  const performSearch = useAction(api.actions.performSearch);
+
   let orgId: string | undefined = undefined;
   if (organization.isLoaded && user.isLoaded) {
     orgId = organization.organization?.id ?? user.user?.id;
@@ -92,22 +95,57 @@ export function FileBrowser({
 
   const modifiedFiles: ModifiedFileType[] = files?.map((file) => ({ ...file, isFavorited: (favorites ?? []).some((favorite) => favorite.fileId === file._id) })) ?? [];
 
+  const filesToShow = searchResults !== null ? (searchResults as ModifiedFileType[]) : modifiedFiles;
+
+  // ----- Handle Search Submit -----
+  useEffect(() => {
+    const handleSearch = async () => {
+      if (!orgId) return;
+
+      if (query === "") {
+        setSearchResults(null); // Clear search results
+        return;
+      }
+
+      // Perform Semantic Search
+      try {
+        const results = await performSearch({ orgId, query });
+
+        // Map favorited state to search results too
+        const resultsWithFavorites = results.map((file: any) => ({
+          ...file,
+          isFavorited: (favorites ?? []).some((favorite) => favorite.fileId === file._id),
+        }));
+
+        setSearchResults(resultsWithFavorites);
+      } catch (err) {
+        console.error("Search failed", err);
+      }
+    };
+
+    // Debounce could be added here, but for now, we trigger on query change
+    // A simple timeout prevents spamming the API while typing
+    const timeoutId = setTimeout(handleSearch, 50);
+    return () => clearTimeout(timeoutId);
+
+  }, [query, orgId, performSearch, favorites]);
+
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
       <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />
       {/* HEADER: ENHANCED FOR CLEANER MOBILE LAYOUT */}
       <div className="flex flex-col gap-6 mb-8">
         <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              {/* The MobileNav appears only on mobile screens */}
-              <div className="md:hidden">
-                <MobileNav />
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-bold">{title}</h1>
+          <div className="flex items-center gap-4">
+            {/* The MobileNav appears only on mobile screens */}
+            <div className="md:hidden">
+              <MobileNav />
             </div>
-            <div className="hidden md:block">
-              <UploadButton />
-            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold">{title}</h1>
+          </div>
+          <div className="hidden md:block">
+            <UploadButton />
+          </div>
         </div>
         <SearchBar query={query} setQuery={setQuery} />
       </div>
@@ -142,9 +180,15 @@ export function FileBrowser({
 
         {isLoading && <LoadingPlaceholder />}
 
+        {searchResults !== null && (
+          <div className="mb-4 text-sm text-gray-500">
+            Found {searchResults.length} results for "{query}" via Semantic Search
+          </div>
+        )}
+
         <TabsContent value="grid">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {modifiedFiles?.map((file) => (
+            {filesToShow.map((file) => (
               <FileCard key={file._id} file={file} onPreview={() => setPreviewFile(file)} />
             ))}
           </div>
@@ -155,9 +199,9 @@ export function FileBrowser({
         </TabsContent>
       </Tabs>
 
-      {!isLoading && files.length === 0 && (
+      {!isLoading && filesToShow.length === 0 && (
         placeholder ? placeholder : <EmptyPlaceholder />
-        )}
+      )}
     </motion.div>
   );
 }
