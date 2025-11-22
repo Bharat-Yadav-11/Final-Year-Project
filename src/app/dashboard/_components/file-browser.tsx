@@ -81,7 +81,7 @@ export function FileBrowser({
   const [type, setType] = useState<Doc<"files">["type"] | "all">("all");
   const [previewFile, setPreviewFile] = useState<ModifiedFileType | null>(null);
 
-  const [searchResults, setSearchResults] = useState<any[] | null>(null); 
+  const [searchResults, setSearchResults] = useState<any[] | null>(null);
   const performSearch = useAction(api.actions.performSearch);
 
   let orgId: string | undefined = undefined;
@@ -182,7 +182,7 @@ export function FileBrowser({
 
         {searchResults !== null && (
           <div className="mb-4 text-sm text-gray-500">
-            Found {searchResults.length} results for "{query}" via Semantic Search
+            {`Found ${searchResults.length} results for "${query}" via Semantic Search`}
           </div>
         )}
 
