@@ -82,6 +82,7 @@ export function FileBrowser({
   const [previewFile, setPreviewFile] = useState<ModifiedFileType | null>(null);
 
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
   const performSearch = useAction(api.actions.performSearch);
 
   let orgId: string | undefined = undefined;
@@ -91,6 +92,8 @@ export function FileBrowser({
 
   const favorites = useQuery(api.files.getAllFavorites, orgId ? { orgId } : "skip");
   const files = useQuery(api.files.getFiles, orgId ? { orgId, type: type === "all" ? undefined : type, query, favorites: favoritesOnly, deletedOnly } : "skip");
+
+  // Helper to check if the initial page load is happening
   const isLoading = files === undefined;
 
   const modifiedFiles: ModifiedFileType[] = files?.map((file) => ({ ...file, isFavorited: (favorites ?? []).some((favorite) => favorite.fileId === file._id) })) ?? [];
@@ -104,8 +107,12 @@ export function FileBrowser({
 
       if (query === "") {
         setSearchResults(null); // Clear search results
+        setIsSearching(false);
         return;
       }
+
+      // START SEARCHING: Turn on the loader
+      setIsSearching(true);
 
       // Perform Semantic Search
       try {
@@ -120,13 +127,15 @@ export function FileBrowser({
         setSearchResults(resultsWithFavorites);
       } catch (err) {
         console.error("Search failed", err);
+      } finally {
+        // STOP SEARCHING: Turn off the loader
+        setIsSearching(false);
       }
     };
 
-    // Debounce could be added here, but for now, we trigger on query change
-    // A simple timeout prevents spamming the API while typing
-    const timeoutId = setTimeout(handleSearch, 50);
-    return () => clearTimeout(timeoutId);
+    // FIX: Removed setTimeout. 
+    // Since query only changes on Enter (thanks to search-bar.tsx), we run this immediately.
+    handleSearch();
 
   }, [query, orgId, performSearch, favorites]);
 
@@ -178,9 +187,11 @@ export function FileBrowser({
           </div>
         </div>
 
-        {isLoading && <LoadingPlaceholder />}
+        {/* SHOW LOADER IF: Initial Load OR Searching */}
+        {(isLoading || isSearching) && <LoadingPlaceholder />}
 
-        {searchResults !== null && (
+        {/* Show Search Status only when NOT searching and we have results */}
+        {!isSearching && searchResults !== null && (
           <div className="mb-4 text-sm text-gray-500">
             {`Found ${searchResults.length} results for "${query}" via Semantic Search`}
           </div>
@@ -199,7 +210,8 @@ export function FileBrowser({
         </TabsContent>
       </Tabs>
 
-      {!isLoading && filesToShow.length === 0 && (
+      {/* Only show empty state if: NOT Loading AND NOT Searching AND List is Empty */}
+      {!isLoading && !isSearching && filesToShow.length === 0 && (
         placeholder ? placeholder : <EmptyPlaceholder />
       )}
     </motion.div>

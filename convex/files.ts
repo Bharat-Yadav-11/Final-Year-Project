@@ -357,3 +357,15 @@ export const backfillEmbeddings = internalMutation({
     );
   },
 });
+
+
+
+export const retryEmbedding = internalMutation({
+  args: { fileId: v.id("files") },
+  async handler(ctx, args) {
+    await ctx.scheduler.runAfter(0, internal.actions.generateEmbedding, {
+      fileId: args.fileId,
+    });
+    console.log(`Scheduled embedding retry for file: ${args.fileId}`);
+  },
+});
