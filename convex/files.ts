@@ -152,10 +152,15 @@ export const deleteAllFiles = internalMutation({
       .withIndex("by_shouldDelete", (q) => q.eq("shouldDelete", true))
       .collect();
 
+    //Calculate cutoff timestamp -> days from when file is deleted
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     await Promise.all(
       files.map(async (file) => {
-        await ctx.storage.delete(file.fileId);
-        return await ctx.db.delete(file._id);
+        // ONLY delete if it was marked for deletion more than 7 days ago
+        if (file.deletedOn && file.deletedOn < sevenDaysAgo) {
+          await ctx.storage.delete(file.fileId);
+          return await ctx.db.delete(file._id);
+        }
       })
     );
   },
@@ -184,6 +189,7 @@ export const deleteFile = mutation({
 
     await ctx.db.patch(args.fileId, {
       shouldDelete: true,
+      deletedOn: Date.now(), // Save the current time
     });
   },
 });
@@ -357,8 +363,6 @@ export const backfillEmbeddings = internalMutation({
     );
   },
 });
-
-
 
 export const retryEmbedding = internalMutation({
   args: { fileId: v.id("files") },

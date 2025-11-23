@@ -25,6 +25,7 @@ export default defineSchema({
     userId: v.id("users"),
     shouldDelete: v.optional(v.boolean()),
     embedding: v.optional(v.array(v.float64())),
+    deletedOn: v.optional(v.number()), 
   })
     .index("by_orgId", ["orgId"])
     .index("by_shouldDelete", ["shouldDelete"])
